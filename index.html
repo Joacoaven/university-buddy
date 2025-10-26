@@ -98,7 +98,22 @@
 
 <section id="register-section">
     <h2>Create Your Account</h2>
-    <p>Please register to start placing orders for tutoring.</p>form>
+    <p>Please register to start placing orders for tutoring.</p>
+    <form id="register-form">
+        <div>
+            <label for="reg-name">Full Name</label>
+            <input type="text" id="reg-name" required>
+        </div>
+        <div>
+            <label for="reg-email">Email</label>
+            <input type="email" id="reg-email" required>
+        </div>
+        <div>
+            <label for="reg-password">Password</label>
+            <input type="password" id="reg-password" required>
+        </div>
+        <button type="submit">Register</button>
+    </form>
 </section>
 
 <section id="order-section" class="hidden">
@@ -250,7 +265,7 @@
 
     window.selectTutor = function(index) {
         tutorSection.classList.add('hidden');
-        chatSection.classList.remove('hidden'');
+        chatSection.classList.remove('hidden');
         const selectedTutor = index; // For now, we just note index; would display in chat normally
         const chatWindow = document.getElementById('chat-window');
         chatWindow.innerHTML += `<p><em>You have selected Tutor ${index + 1}. Say hello!</em></p>`;
@@ -274,19 +289,3 @@
 </script>
 </body>
 </html>
-
-    <form id="register-form">
-        <div>
-            <label for="reg-name">Full Name</label>
-            <input type="text" id="reg-name" required>
-        </div>
-        <div>
-            <label for="reg-email">Email</label>
-            <input type="email" id="reg-email" required>
-        </div>
-        <div>
-            <label for="reg-password">Password</label>
-            <input type="password" id="reg-password" required>
-        </div>
-        <button type="submit">Register</button>
-    </

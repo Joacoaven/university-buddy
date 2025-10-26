@@ -10,11 +10,56 @@
             padding: 0;
             background-color: #f8dbbe; /* light beige */
         }
-        header {
+        .hero {
             background-color: #38593c; /* dark green */
-            color: #f8dbbe; /* beige text */
+            color: #f8dbbe;
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .hero img {
+            max-width: 250px;
+            height: auto;
+        }
+        .hero h1 {
+            font-size: 2.5em;
+            margin: 20px 0 10px;
+        }
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        #start-button {
+            padding: 12px 25px;
+            font-size: 1em;
+            background-color: #345b39;
+            color: #f8dbbe;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #features-section {
+            margin: 40px 20px;
             padding: 20px;
             text-align: center;
+        }
+        #features-section h2 {
+            color: #38593c;
+            margin-bottom: 30px;
+        }
+        .feature-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .feature-card {
+            background-color: #9aa17b;
+            color: #000;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex: 1 1 250px;
+            max-width: 300px;
         }
         section {
             margin: 20px;
@@ -97,12 +142,32 @@
     </style>
 </head>
 <body>
-<header>
+<header class="hero">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABQAAAAQACAYAAAC+k/RDAAAACXBIWXMAAAsTAAALEwEAmpwYAAAgAElEQVR4nOzd95cW5f0H/Oef... (truncated base64 for brevity) ..." alt="University Buddy Logo">
     <h1>University Buddy</h1>
-    <p>Your partner in learning – Affordable tutoring for everyone</p>
+    <p>Your best friend for every deadline</p>
+    <button id="start-button">Get Started</button>
 </header>
 
-<section id="register-section">
+<section id="features-section">
+    <h2>Why Choose University Buddy?</h2>
+    <div class="feature-cards">
+        <div class="feature-card">
+            <h3>Affordable Pricing</h3>
+            <p>$10 per page with transparent costs.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Expert Tutors</h3>
+            <p>Qualified tutors across all subjects.</p>
+        </div>
+        <div class="feature-card">
+            <h3>One‑on‑One Chat</h3>
+            <p>Interact directly with your tutor.</p>
+        </div>
+    </div>
+</section>
+
+<section id="register-section" class="hidden">
     <h2>Create Your Account</h2>
     <p>Please register to start placing orders for tutoring.</p>
     <form id="register-form">
@@ -148,7 +213,7 @@
             <textarea id="instructions" rows="4" required></textarea>
         </div>
         <div>
-            <label for="addons">Add-ons (Optional)</label>
+            <label for="addons">Add‑ons (Optional)</label>
             <textarea id="addons" rows="2"></textarea>
         </div>
         <div>
@@ -184,36 +249,41 @@
         <!-- Chat messages will appear here -->
     </div>
     <div class="chat-input">
-        <input type="text" id="chat-input" placeholder="Type your message...">
+        <input type="text" id="chat-input" placeholder="Type your message…">
         <button id="send-chat">Send</button>
     </div>
 </section>
 
 <script>
-    // Show/hide sections based on progress
+    // Show registration when the start button is clicked
+    document.getElementById('start-button').addEventListener('click', function () {
+        document.getElementById('register-section').classList.remove('hidden');
+        document.getElementById('register-section').scrollIntoView({ behavior: 'smooth' });
+    });
+
     const registerSection = document.getElementById('register-section');
     const orderSection = document.getElementById('order-section');
     const paymentSection = document.getElementById('payment-section');
     const tutorSection = document.getElementById('tutor-section');
     const chatSection = document.getElementById('chat-section');
 
-    // Register form
-    document.getElementById('register-form').addEventListener('submit', function(event) {
+    // Registration
+    document.getElementById('register-form').addEventListener('submit', function (event) {
         event.preventDefault();
         registerSection.classList.add('hidden');
         orderSection.classList.remove('hidden');
     });
 
-    // Update price based on number of pages
+    // Price calculation
     const numPagesInput = document.getElementById('num-pages');
-    numPagesInput.addEventListener('input', function() {
+    numPagesInput.addEventListener('input', function () {
         const pricePerPage = 10;
         const totalPrice = pricePerPage * parseInt(numPagesInput.value || 1);
         document.getElementById('total-price').textContent = totalPrice;
     });
 
-    // Order form
-    document.getElementById('order-form').addEventListener('submit', function(event) {
+    // Order submission
+    document.getElementById('order-form').addEventListener('submit', function (event) {
         event.preventDefault();
         const assignmentType = document.getElementById('assignment-type').value;
         const dueDate = document.getElementById('due-date').value;
@@ -222,13 +292,13 @@
         const addons = document.getElementById('addons').value;
         const numPages = parseInt(numPagesInput.value);
         const totalPrice = 10 * numPages;
-        // Show payment details
+
         document.getElementById('payment-details').innerHTML = `
             <p><strong>Assignment Type:</strong> ${assignmentType}</p>
             <p><strong>Due Date:</strong> ${dueDate}</p>
             <p><strong>Subject:</strong> ${subject}</p>
             <p><strong>Instructions:</strong> ${instructions}</p>
-            <p><strong>Add-ons:</strong> ${addons || 'None'}</p>
+            <p><strong>Add‑ons:</strong> ${addons || 'None'}</p>
             <p><strong>Number of Pages:</strong> ${numPages}</p>
             <p><strong>Total Price:</strong> $${totalPrice}</p>
         `;
@@ -236,21 +306,20 @@
         paymentSection.classList.remove('hidden');
     });
 
-    // Payment button
-    document.getElementById('pay-button').addEventListener('click', function() {
+    // Payment
+    document.getElementById('pay-button').addEventListener('click', function () {
         paymentSection.classList.add('hidden');
         tutorSection.classList.remove('hidden');
-        // Load tutors
         loadTutors();
     });
 
-    // Tutor selection
+    // Load tutor list
     function loadTutors() {
         const tutors = [
-            { name: "Dr. Alice Smith", subject: "Mathematics" },
-            { name: "Prof. John Doe", subject: "Science" },
-            { name: "Ms. Karen Johnson", subject: "English" },
-            { name: "Mr. Mike Brown", subject: "History" }
+            { name: 'Dr. Alice Smith', subject: 'Mathematics' },
+            { name: 'Prof. John Doe', subject: 'Science' },
+            { name: 'Ms. Karen Johnson', subject: 'English' },
+            { name: 'Mr. Mike Brown', subject: 'History' }
         ];
         const tutorListDiv = document.getElementById('tutor-list');
         tutorListDiv.innerHTML = '';
@@ -269,24 +338,23 @@
         });
     }
 
-    window.selectTutor = function(index) {
+    window.selectTutor = function (index) {
         tutorSection.classList.add('hidden');
         chatSection.classList.remove('hidden');
         const chatWindow = document.getElementById('chat-window');
         chatWindow.innerHTML += `<p><em>You have selected Tutor ${index + 1}. Say hello!</em></p>`;
     };
 
-    // Chat functionality with more accurate response
-    document.getElementById('send-chat').addEventListener('click', function() {
+    // Chat functionality
+    document.getElementById('send-chat').addEventListener('click', function () {
         const chatInputElem = document.getElementById('chat-input');
         const message = chatInputElem.value.trim();
         if (message !== '') {
             const chatWindow = document.getElementById('chat-window');
             chatWindow.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
             chatInputElem.value = '';
-            // Simulate tutor reply after a delay using message context
-            setTimeout(function() {
-                chatWindow.innerHTML += `<p><strong>Tutor:</strong> I understand your request: "${message}". Let's work on it together!</p>`;
+            setTimeout(function () {
+                chatWindow.innerHTML += `<p><strong>Tutor:</strong> I understand your request: "${message}". Let’s work on it together!</p>`;
                 chatWindow.scrollTop = chatWindow.scrollHeight;
             }, 1000);
         }
